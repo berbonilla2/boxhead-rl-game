@@ -1,0 +1,136 @@
+================================================================================
+                   V1 ALGORITHMS - QUICK SUMMARY
+          DQN vs PPO vs A2C (Original Baseline Training)
+================================================================================
+
+EVALUATION RESULTS (Primary Metric):
+-------------------------------------
+1. A2C: 224.89 +/- 7.53  ← WINNER! ✓✓✓
+2. DQN: 203.70 +/- 11.27 ← Second ✓✓
+3. PPO: 186.11 +/- 18.93 ← Third ✓
+
+A2C won by 10.4% over DQN and 20.8% over PPO!
+
+TRAINING RESULTS:
+-----------------
+1. A2C: 213.79 +/- 14.71 (but eval was BETTER at 224.89!)
+2. DQN: 207.76 +/- 13.12 (very consistent)
+3. PPO: 206.29 +/- 15.91 (highest variance)
+
+GENERALIZATION (Eval - Training):
+----------------------------------
+1. A2C: +11.10 (+5.2%) ← Excellent! ✓✓✓
+2. DQN: -4.06 (-2.0%) ← Slight overfit ✓
+3. PPO: -20.18 (-9.8%) ← Significant overfit ✗
+
+CONSISTENCY (Eval Std):
+-----------------------
+1. A2C: 7.53 ← Most consistent! ✓✓✓
+2. DQN: 11.27 ← Good ✓✓
+3. PPO: 18.93 ← Least consistent ✓
+
+COMPLETION RATE:
+----------------
+All three: 100% (50/50 episodes at 800 steps)
+
+================================================================================
+                        WHY A2C WON
+================================================================================
+
+✓ BEST Performance: 224.89 eval (10-20% higher than others)
+✓ BEST Consistency: 7.53 std (33-60% lower than others)
+✓ BEST Generalization: +5.2% (only positive!)
+✓ SIMPLEST Algorithm: Easiest to tune
+✓ FASTEST Learning: 7e-4 LR, small n-steps (8)
+
+A2C was chosen for V2-V5 development -> Result: 580.59 mean in V5!
+(158% improvement from V1 A2C 224.89 to V5 A2C 580.59)
+
+The decision was VALIDATED!
+
+================================================================================
+                     ALGORITHM DETAILS
+================================================================================
+
+DQN (Deep Q-Network):
+  - LR: 5e-4, Buffer: 50k, Batch: 64, Train freq: 4
+  - Result: 203.70 eval (good but not best)
+  - Strength: Very stable (13.12 training std)
+  - Weakness: Conservative, lower rewards
+
+PPO (Proximal Policy Optimization):
+  - LR: 3e-4, N-steps: 512, Batch: 64, Entropy: 0.01
+  - Result: 186.11 eval (worst of three)
+  - Strength: Robust algorithm (just not tuned for this)
+  - Weakness: Overfit, n-steps too large, low entropy
+
+A2C (Advantage Actor-Critic):
+  - LR: 7e-4, N-steps: 8, Entropy: 0.01
+  - Result: 224.89 eval (BEST!)
+  - Strength: Simple, fast, excellent generalization
+  - Weakness: (None significant)
+
+================================================================================
+                     ENVIRONMENT (V1)
+================================================================================
+
+State: 9 features
+  [0-2]: Player (X, Y, Health)
+  [3-5]: Nearest enemy (delta X, Y, distance)
+  [6-8]: Unused (zeros)
+
+Episode: 800 steps max
+Enemies: 4 zombies + 2 demons (start)
+Rewards: +0.05 survival, +0.1*health, +0.2*distance, -30 death
+No weapons, no items, simple survival
+
+All algorithms achieved 100% completion on this simpler environment.
+
+================================================================================
+                     KEY STATISTICS
+================================================================================
+
+Training Performance:
+  A2C: 213.79 +/- 14.71 (best)
+  DQN: 207.76 +/- 13.12 (most consistent)
+  PPO: 206.29 +/- 15.91 (middle)
+
+Evaluation Performance (PRIMARY METRIC):
+  A2C: 224.89 +/- 7.53 (WINNER!)
+  DQN: 203.70 +/- 11.27
+  PPO: 186.11 +/- 18.93
+
+Generalization:
+  A2C: +5.2% (eval better than training!)
+  DQN: -2.0% (slight overfit)
+  PPO: -9.8% (significant overfit)
+
+All achieved 100% completion (50/50 episodes).
+
+================================================================================
+                     WHY THIS MATTERS
+================================================================================
+
+V1 testing established:
+  1. A2C is best for this task
+  2. Simple algorithms work better for simple states
+  3. Generalization capability matters
+  4. Higher learning rates enable faster convergence
+  5. Small n-steps fit task well
+
+This guided all V2-V5 development:
+  - Focused on A2C
+  - Optimized hyperparameters
+  - Added state features
+  - Improved rewards
+  - Result: 580.59 mean in V5!
+
+================================================================================
+
+RECOMMENDATION: A2C was and remains the best algorithm for Boxhead!
+
+V1 Results: A2C 224.89 > DQN 203.70 > PPO 186.11
+V5 Results: A2C 580.59 (158% improvement from V1!)
+
+================================================================================
+

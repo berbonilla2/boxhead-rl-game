@@ -1,0 +1,142 @@
+================================================================================
+                    A2C QUICK START GUIDE
+================================================================================
+
+OPTION 1: Double-click to train (Windows)
+------------------------------------------
+1. Double-click: run_training.bat
+2. Wait for training to complete
+3. Check results in: A2C/results/
+
+OPTION 2: Command line
+----------------------
+1. Open terminal/PowerShell in the box_clone folder
+2. Run: gameEnv\Scripts\activate
+3. Run: cd A2C
+4. Run: python train_a2c_optimized.py
+
+OPTION 3: Test setup first
+---------------------------
+1. Open terminal in box_clone folder
+2. Run: gameEnv\Scripts\python.exe A2C/test_setup.py
+3. Verify all tests pass
+4. Then run training as in Option 2
+
+================================================================================
+                        FILE LOCATIONS
+================================================================================
+
+Training Script:      A2C/train_a2c_optimized.py
+Environment:          A2C/enhanced_boxhead_env.py
+Models Folder:        A2C/Models/
+Baseline Model:       A2C/Models/boxhead_A2C_v1.zip
+Model Changelog:      A2C/model_log.txt
+Documentation:        A2C/README.md
+Complete Summary:     A2C/SETUP_COMPLETE.md
+
+================================================================================
+                     VERSION MANAGEMENT
+================================================================================
+
+To train a new version:
+1. Edit train_a2c_optimized.py
+2. Change line 32: MODEL_VERSION = "v3"  (or v4, v5, etc.)
+3. Run training
+4. New model saved as: boxhead_A2C_v3.zip
+
+Current versions:
+- v1: Baseline (9 features, simple network)
+- v2: Optimized (25 features, deep network) <- READY TO TRAIN
+
+================================================================================
+                    CUSTOMIZATION
+================================================================================
+
+Change Training Duration:
+  Edit train_a2c_optimized.py, lines 33-34
+  EPISODES = 100          # Try: 50, 200, 500
+  STEPS_PER_EPISODE = 1000  # Try: 800, 1500
+
+Change Learning Rate:
+  Edit train_a2c_optimized.py, line 255
+  learning_rate=warmup_cosine_lr(3e-4)  # Try: 1e-4, 5e-4
+
+Change Exploration:
+  Edit train_a2c_optimized.py, line 260
+  ent_coef=0.02  # Try: 0.01, 0.05
+
+Change Network Size:
+  Edit train_a2c_optimized.py, line 244-245
+  features_dim=256  # Try: 128, 512
+  net_arch=dict(pi=[256, 128], vf=[256, 128])  # Try: [512, 256]
+
+================================================================================
+                    MONITORING TRAINING
+================================================================================
+
+During training you'll see:
+  - Real-time plots (6 graphs)
+  - Console output with episode stats
+  - Progress bar
+  - Best model notifications
+
+After training check:
+  - results/training_v2_{timestamp}.png  (plots)
+  - results/metrics_v2_{timestamp}.csv   (data)
+  - Models/boxhead_A2C_v2.zip           (final model)
+  - model_log.txt                        (changelog)
+
+================================================================================
+                    EXPECTED RESULTS
+================================================================================
+
+Training v2 will take approximately 20-40 minutes on CPU.
+
+Expected performance improvement over v1:
+  - Reward: +50% to +150%
+  - Survival time: +40% to +65%
+  - More strategic behavior
+  - Better enemy avoidance
+
+================================================================================
+                    TROUBLESHOOTING
+================================================================================
+
+Import Error:
+  -> Make sure virtual environment is activated
+  -> Run: gameEnv\Scripts\activate
+
+Training Unstable:
+  -> Reduce learning rate to 1e-4
+  -> Increase n_steps to 32
+  -> Reduce entropy to 0.01
+
+Out of Memory:
+  -> Close real-time plots (comment out plt.ion() on line 138)
+  -> Reduce network size (features_dim=128)
+  -> Use device='cpu' explicitly
+
+Training Too Slow:
+  -> Reduce EPISODES or STEPS_PER_EPISODE
+  -> Disable checkpoints (comment out checkpoint_callback)
+  -> Use CUDA if available
+
+================================================================================
+                    SUPPORT
+================================================================================
+
+Documentation:   README.md, SETUP_COMPLETE.md
+Test Setup:      python test_setup.py
+Model History:   model_log.txt
+
+For hyperparameter tuning guidance, see README.md section "Customization"
+For architecture details, see SETUP_COMPLETE.md
+
+================================================================================
+
+Ready to train? Run: run_training.bat (or use command line options above)
+
+Good luck! 🚀
+
+================================================================================
+

@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+*.dll
+
+# PyTorch and ML libraries
+*.pkl
+*.pth
+*.pt
+*.zip
+*.npz
+
+# Large model files
+Models/
+checkpoints/
+logs/
+results/
+
+# Virtual environment
+gameEnv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large binary files
+*.dll
+*.lib
+*.exe
+cv2.pyd
+torch_*.dll
+cudnn_*.dll
+cublas*.dll
+cusparse*.dll
+cufft*.dll
+cusolver*.dll
+curand*.dll
+nvrtc*.dll
+nvJitLink*.dll
+libprotoc.lib
+libprotobuf.lib
+libscipy*.dll
+dnnl.lib
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Temporary files
+*.tmp
+*.temp
+*.log
